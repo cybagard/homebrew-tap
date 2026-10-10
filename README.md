@@ -2,4 +2,9 @@
 
 Homebrew formulae for [cybagard](https://github.com/cybagard) projects.
 
-This tap has no formulae yet. The first one is for [headroom](https://github.com/cybagard/cyba-headroom).
+Install [headroom](https://github.com/cybagard/cyba-headroom) (macOS, Apple silicon):
+
+```sh
+brew install cybagard/tap/headroom
+brew services start headroom
+```
