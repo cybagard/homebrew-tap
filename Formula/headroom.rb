@@ -1,8 +1,8 @@
 class Headroom < Formula
   desc "Admission control for parallel coding agents on one Mac"
   homepage "https://github.com/cybagard/cyba-headroom"
-  url "https://github.com/cybagard/cyba-headroom/releases/download/v0.2.0/headroom-v0.2.0-darwin-arm64.tar.gz"
-  sha256 "8d8cb7040984121820d95db2663ece8387d0768005a96e828ea6c511923f8db3"
+  url "https://github.com/cybagard/cyba-headroom/releases/download/v0.2.1/headroom-v0.2.1-darwin-arm64.tar.gz"
+  sha256 "f2b5a83d74e608e2f22ff12715ffa456336f8faf03220ac85eddcfb1facc3cfa"
   license "AGPL-3.0-only"
 
   depends_on arch: :arm64
