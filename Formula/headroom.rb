@@ -25,24 +25,27 @@ class Headroom < Formula
         headroom run -- <agent>
       Do not also run `headroom install`.
 
-      Optional, for login shells (zsh -l, bash -l, a terminal or SSH): /etc/zprofile
-      runs path_helper, which moves the shim directory behind /usr/local/bin. For
-      zsh, add these lines at the end of both ~/.zlogin and ~/.zshrc:
-        # headroom: shims first (also in login shells, after path_helper)
+      Login shells (Orca's agent-view and loop agents, scripts) put the real
+      docker, podman and tart first. To put the shims first, run:
+        headroom shell-setup --apply
+      `headroom shell-setup` alone shows what it would change; --remove undoes it.
+      To add the lines by hand instead, for zsh put these at the end of both
+      ~/.zlogin and ~/.zshrc:
         typeset -U path
-        path=("$HOME/.config/headroom/shims" $path)
+        path=("$HOME/.config/headroom/shims" "${path[@]}")
       For bash, add this line at the end of the first of ~/.bash_profile,
       ~/.bash_login and ~/.profile that exists (create ~/.bash_profile only if none does):
         export PATH="$HOME/.config/headroom/shims:$PATH"
       See https://github.com/cybagard/cyba-headroom#login-shells
 
-      Before you uninstall, stop the service:
+      Before you uninstall, stop the service and remove the shell block, if added:
         brew services stop headroom
+        headroom shell-setup --remove
         brew uninstall cybagard/tap/headroom
       Then remove the shim links:
         rm -rf ~/.config/headroom/shims
       That keeps the config, the samples, the lock file d.sock.lock and the logs.
-      To remove all of them, and then the shell lines above if you added them:
+      To remove all of them, and then any shell lines you added by hand:
         rm -rf ~/.config/headroom ~/Library/Logs/headroom
 
       The service does not see DOCKER_HOST, HEADROOM_CONFIG_DIR or OLLAMA_HOST
