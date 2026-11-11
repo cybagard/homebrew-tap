@@ -14,17 +14,36 @@ class Headroom < Formula
 
   def caveats
     <<~EOS
+      Always give brew the full name, cybagard/tap/headroom: to install, reinstall,
+      upgrade, info and uninstall. The short name, headroom, resolves to an
+      unrelated cask (Headroom.app); that includes brew's own hint
+      `brew reinstall headroom`. Only `brew services` takes the short name.
+
       Start the daemon now and at login (it also links the shims):
         brew services start headroom
       Set each Orca agent's command to:
         headroom run -- <agent>
       Do not also run `headroom install`.
 
+      Optional, for login shells (zsh -l, bash -l, a terminal or SSH): /etc/zprofile
+      runs path_helper, which moves the shim directory behind /usr/local/bin. For
+      zsh, add these lines at the end of both ~/.zlogin and ~/.zshrc:
+        # headroom: shims first (also in login shells, after path_helper)
+        typeset -U path
+        path=("$HOME/.config/headroom/shims" $path)
+      For bash, add this line at the end of the first of ~/.bash_profile,
+      ~/.bash_login and ~/.profile that exists (create ~/.bash_profile only if none does):
+        export PATH="$HOME/.config/headroom/shims:$PATH"
+      See https://github.com/cybagard/cyba-headroom#login-shells
+
       Before you uninstall, stop the service:
         brew services stop headroom
         brew uninstall cybagard/tap/headroom
       Then remove the shim links:
         rm -rf ~/.config/headroom/shims
+      That keeps the config, the samples, the lock file d.sock.lock and the logs.
+      To remove all of them, and then the shell lines above if you added them:
+        rm -rf ~/.config/headroom ~/Library/Logs/headroom
 
       The service does not see DOCKER_HOST, HEADROOM_CONFIG_DIR or OLLAMA_HOST
       from your shell.
